@@ -1,0 +1,172 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+model User {
+  id                 String   @id @default(cuid())
+  email              String   @unique
+  passwordHash       String?
+  name               String?
+  firstName          String?
+  lastName           String?
+  prefix             String?
+  mobile             String?
+  phone              String?
+  avatar             String?
+  country            String?
+  designation        String?
+  organizationName   String?
+  functionalAreas    String?
+  sectorsOfInterest  String?
+  linkedin           String?
+  userRole           String   @default("buyer")
+  profileStatus      String   @default("incomplete")
+  verified           Boolean  @default(false)
+  membership         String?
+  membershipStatus   String?
+  membershipPlan     String?
+  membershipExpiry   DateTime?
+  phone_verifed      Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  company            Company?
+  products           Product[]
+  requirements       Requirement[]
+  sentInquiries      Inquiry[] @relation("buyerInquiries")
+  receivedInquiries  Inquiry[] @relation("sellerInquiries")
+  favorites          Favorite[]
+  orders             MembershipOrder[]
+}
+
+model Company {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  companyName          String
+  companyLogo          String?
+  companyType          String?
+  description          String?
+  email                String?
+  phone                String?
+  address              String?
+  city                 String?
+  state                String?
+  country              String?
+  pincode              String?
+  website              String?
+  foundedYear          String?
+  employeeCount        String?
+  annualTurnover       String?
+  standardDetails      String?
+  collaborationDetails String?
+  jvDetails            String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products             Product[]
+}
+
+model Product {
+  id              String   @id @default(cuid())
+  sellerId        String
+  companyId       String?
+  title           String
+  name            String?
+  description     String?
+  category        String?
+  sub_category    String?
+  subcategory     String?
+  sub_sub_category String?
+  price           String?
+  currency        String?
+  measurement     String?
+  hsc             String?
+  keywords        String?
+  productDetails  String?
+  specifications  String?
+  images          Json?
+  status          String   @default("active")
+  approvalStatus  String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  seller          User     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  company         Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  inquiries       Inquiry[]
+  favorites       Favorite[]
+}
+
+model Requirement {
+  id                String   @id @default(cuid())
+  userId            String
+  requirementDetails String
+  category          String?
+  quoteFor          String?
+  budget            String?
+  location          String?
+  attachment        String?
+  approvalStatus    String   @default("pending")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Inquiry {
+  id             String   @id @default(cuid())
+  buyerId        String
+  sellerId       String
+  productId      String?
+  requirementId  String?
+  message        String?
+  type           String?
+  status         String   @default("pending")
+  approvalStatus String?
+  chat           Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  buyer          User     @relation("buyerInquiries", fields: [buyerId], references: [id], onDelete: Cascade)
+  seller         User     @relation("sellerInquiries", fields: [sellerId], references: [id], onDelete: Cascade)
+  product        Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  @@unique([userId, productId])
+}
+
+model MembershipOrder {
+  id           String   @id @default(cuid())
+  userId       String
+  amount       Int
+  currency     String   @default("INR")
+  razorpayId   String?
+  razorpayOrderId String?
+  razorpayPaymentId String?
+  razorpaySignature String?
+  planId       String?
+  planName     String?
+  completedAt  DateTime?
+  paymentId    String?
+  status       String   @default("created")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  email     String
+  codeHash  String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  @@index([email, expiresAt])
+}
