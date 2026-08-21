@@ -1,15 +1,15 @@
-import { Inter } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { getCurrentUser, publicUser } from '@/lib/auth';
 import Navbar from '@/components/Nav';
 import Footer from '@/components/Footer';
 
-const inter = Inter({ subsets: ['latin'] });
+const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' });
 
 export const metadata = {
-  title: 'My SME Marketplace',
-  description: 'A platform for SMEs to connect and trade',
+  title: 'MySME Marketplace — Source. Connect. Grow.',
+  description: 'Discover verified Indian SMEs, compare quotes and grow your business with trusted suppliers.',
 };
 
 export default async function RootLayout({ children }) {
@@ -20,7 +20,7 @@ export default async function RootLayout({ children }) {
       <head>
                 <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
       </head>
-      <body className={inter.className}>
+      <body className={manrope.className}>
         <AuthProvider initialAuth={initialAuth}>
           <Navbar/>
           {children}
