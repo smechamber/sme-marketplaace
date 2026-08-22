@@ -1,6 +1,0 @@
-{
-  "/login/page": "/login",
-  "/page": "/",
-  "/api/login/route": "/api/login",
-  "/_not-found/page": "/_not-found"
-}
