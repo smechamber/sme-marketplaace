@@ -49,6 +49,7 @@ model Company {
   companyName          String
   companyLogo          String?
   companyType          String?
+  approvalStatus       String   @default("pending")
   description          String?
   email                String?
   phone                String?

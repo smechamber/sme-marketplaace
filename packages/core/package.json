@@ -1,0 +1,1 @@
+{"name":"@mysme/core","version":"1.0.0","private":true,"type":"module","exports":{"./auth":"./auth.js","./db":"./db.js"}}

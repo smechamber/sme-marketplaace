@@ -1,0 +1,30 @@
+{
+  "pages": {
+    "/dashboard/products/add/page": [
+      "static/chunks/apps_seller_app_globals_2bc6fca3.css",
+      "static/chunks/node_modules_386f1c0a._.js",
+      "static/chunks/apps_seller_84151af9._.js",
+      "static/chunks/apps_seller_app_layout_jsx_68b267f5._.js",
+      "static/chunks/node_modules_next_dist_client_components_builtin_global-error_71a48cf9.js",
+      "static/chunks/apps_seller_5966a14e._.js",
+      "static/chunks/node_modules_tailwind-merge_dist_bundle-mjs_mjs_b854acb4._.js",
+      "static/chunks/node_modules_libphonenumber-js_84f35e08._.js",
+      "static/chunks/node_modules_react-phone-number-input_136c173f._.js",
+      "static/chunks/node_modules_d447b5dd._.js",
+      "static/chunks/node_modules_react-phone-number-input_style_bdc0cd26.css",
+      "static/chunks/apps_seller_app_dashboard_layout_jsx_71a48cf9._.js",
+      "static/chunks/apps_seller_47f82828._.js",
+      "static/chunks/node_modules_230b9e0c._.js",
+      "static/chunks/apps_seller_app_dashboard_products_add_page_jsx_78b3b594._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_6aaa83c7._.js",
+      "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc06._.js",
+      "static/chunks/node_modules_next_dist_compiled_next-devtools_index_d575f738.js",
+      "static/chunks/node_modules_next_dist_compiled_0f1b9fd4._.js",
+      "static/chunks/node_modules_next_dist_client_20b209c9._.js",
+      "static/chunks/node_modules_next_dist_445d8acf._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_8e433861._.js",
+      "static/chunks/apps_seller_e69f0d32._.js",
+      "static/chunks/apps_seller_01f48b92._.js"
+    ]
+  }
+}

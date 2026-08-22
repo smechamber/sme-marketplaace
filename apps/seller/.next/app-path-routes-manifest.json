@@ -1,0 +1,18 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/api/login/route": "/api/login",
+  "/login/page": "/login",
+  "/page": "/",
+  "/dashboard/inquiries/page": "/dashboard/inquiries",
+  "/dashboard/page": "/dashboard",
+  "/dashboard/products/[id]/edit/page": "/dashboard/products/[id]/edit",
+  "/dashboard/company/page": "/dashboard/company",
+  "/dashboard/products/add/page": "/dashboard/products/add",
+  "/dashboard/inquiries/[id]/page": "/dashboard/inquiries/[id]",
+  "/dashboard/profile/page": "/dashboard/profile",
+  "/dashboard/favorites/page": "/dashboard/favorites",
+  "/dashboard/products/page": "/dashboard/products",
+  "/dashboard/requirements/page": "/dashboard/requirements",
+  "/dashboard/requirements/edit/[id]/page": "/dashboard/requirements/edit/[id]",
+  "/dashboard/requirements/add/page": "/dashboard/requirements/add"
+}
