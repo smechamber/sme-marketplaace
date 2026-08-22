@@ -17,7 +17,7 @@ export async function POST(request) {
     const code = String(crypto.randomInt(100000, 1000000))
     otpRecord = await prisma.otpCode.create({ data: { email, codeHash: crypto.createHash("sha256").update(code).digest("hex"), expiresAt: new Date(Date.now() + 10 * 60 * 1000) } })
     const port = Number(process.env.SMTP_PORT || 587)
-    const transporter = nodemailer.createTransport({ host: process.env.SMTP_HOST || "smtp.office365.com", port, secure: port === 465, auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } })
+    const transporter = nodemailer.createTransport({ host: process.env.SMTP_HOST || "smtp.gmail.com", port, secure: port === 465, auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } })
 
     await transporter.sendMail({
       from: `MySME Marketplace <${process.env.SMTP_USER}>`, to: email,

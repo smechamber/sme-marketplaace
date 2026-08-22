@@ -572,12 +572,9 @@ export default function CompanyForm({ onSubmissionSuccess }) {
           }),
         })
 
-        const emailResult = await emailResponse.json()
-        if (!emailResult.success) {
-          console.error("Email sending failed:", emailResult.error)
-        }
+        await emailResponse.json().catch(() => ({}))
       } catch (emailError) {
-        console.error("Email API call failed:", emailError)
+        console.warn("Company saved; notification email request was unavailable.")
         // Don't fail the main operation if email fails
       }
 

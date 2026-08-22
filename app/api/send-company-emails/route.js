@@ -5,17 +5,14 @@ export async function POST(request) {
     const { companyData, userEmail, isUpdate } = await request.json()
 
     // Create transporter
+const smtpPort = Number(process.env.SMTP_PORT || 587)
 const transporter = nodemailer.createTransport({
-    host: "smtp.office365.com",
-    port: 587,
-    secure: false, // TLS upgrade via STARTTLS
+    host: process.env.SMTP_HOST || "smtp.gmail.com",
+    port: smtpPort,
+    secure: smtpPort === 465,
     auth: {
       user: process.env.SMTP_USER, // your full email (user@domain.com)
       pass: process.env.SMTP_PASS, // app password or account password
-    },
-    tls: {
-      ciphers: "SSLv3", // helps avoid "unrecognized authentication type"
-      rejectUnauthorized: false, // only if you get certificate errors
     },
   });
 
@@ -96,7 +93,13 @@ const transporter = nodemailer.createTransport({
 
     return Response.json({ success: true, message: "Emails sent successfully" })
   } catch (error) {
-    console.error("Email sending failed:", error)
-    return Response.json({ success: false, error: error.message }, { status: 500 })
+    // Company persistence is the primary operation. A disabled Office 365 SMTP
+    // login must not turn an already-saved company profile into a form failure.
+    console.warn("Company notification email was not sent:", error.code || error.message)
+    return Response.json({
+      success: true,
+      notificationSent: false,
+      warning: "Company details were saved, but the admin notification email could not be sent.",
+    }, { status: 202 })
   }
 }
