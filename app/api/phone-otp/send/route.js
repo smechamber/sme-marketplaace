@@ -58,14 +58,16 @@ async function sendSMSOTP(phone, otp) {
     const message = `${otp} is the OTP for the registration process - SMECHM`
 
   
-    const apiKey = process.env.SMS_API_KEY 
-    const entityId = process.env.SMS_ENTITY_ID 
-    const smsUrl = process.env.SMS_GATEWAY_URL 
+    const apiKey = process.env.SMS_API_KEY
+    const entityId = process.env.SMS_ENTITY_ID
+    const smsUrl = process.env.SMS_GATEWAY_URL
+    const senderId = process.env.SMS_SENDER_ID || "SMECHM"
+    if (!apiKey || !entityId || !smsUrl) throw new Error("SMS gateway is not configured")
 
     const params = new URLSearchParams({
       apikey: apiKey,
       type: "TEXT",
-      sender: "SMECHM",
+      sender: senderId,
       entityId: entityId,
       mobile: formattedPhone,
       message: message,

@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma"
 import { getCurrentUser, publicUser } from "@/lib/auth"
 
 const delegates = { users: "user", companies: "company", products: "product", requirements: "requirement", inquiries: "inquiry", favorites: "favorite", membership_orders: "membershipOrder" }
-const fields = (collection) => collection === "users" ? { password: "passwordHash", created: "createdAt", updated: "updatedAt" } : { created: "createdAt", updated: "updatedAt" }
+const fields = () => ({ created: "createdAt", updated: "updatedAt" })
 
 function serialize(collection, value) {
   if (!value) return value

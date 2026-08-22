@@ -21,7 +21,8 @@ import {
   functionalAreas,
 } from "@/lib/constants";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-import { User, Building2, Phone, MapPin, Briefcase, Globe, Target, Users } from "lucide-react";
+import PhoneVerificationDialog from "@/components/phone-verification-dialog";
+import { User, Building2, Phone, MapPin, Briefcase, Globe, Target, Users, BadgeCheck, ShieldCheck } from "lucide-react";
 
 export default function ProfileForm() {
   const { currentUser, pb, isLoading: authLoading, refreshAuth } = useAuth();
@@ -44,6 +45,7 @@ export default function ProfileForm() {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [isError, setIsError] = useState(false);
+  const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
 
   // Initialize form data only once when currentUser is available
   useEffect(() => {
@@ -175,14 +177,11 @@ export default function ProfileForm() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-5xl mx-auto">
       {/* Header */}
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-[#29688A] rounded-full mb-4">
-          <User className="h-8 w-8 text-white" />
-        </div>
-        <h1 className="text-2xl font-semibold text-gray-900 mb-2">Edit Profile</h1>
-        <p className="text-gray-600">Update your information to keep your profile current</p>
+      <div className="mb-8 flex flex-col gap-4 rounded-3xl bg-gradient-to-r from-[#062333] to-[#087f8c] p-6 text-white sm:flex-row sm:items-center sm:p-8">
+        <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white/15"><User className="h-7 w-7" /></div>
+        <div><p className="text-xs font-bold uppercase tracking-[.16em] text-cyan-200">Account settings</p><h1 className="mt-1 text-2xl font-black">Personal & professional profile</h1><p className="mt-1 text-sm text-cyan-100">Keep your identity and business interests current for better marketplace matches.</p></div>
       </div>
 
       {/* Status Messages */}
@@ -199,7 +198,7 @@ export default function ProfileForm() {
 
       {/* Form Card */}
       <Card className="border border-gray-200 shadow-sm">
-        <CardContent className="p-8">
+        <CardContent className="p-4 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Personal Information */}
             <FormSection title="Personal Information" icon={User}>
@@ -249,15 +248,12 @@ export default function ProfileForm() {
               </FormField>
 
               <FormField label="Mobile" icon={Phone}>
-                <Input
-                  name="mobile"
-                  type="text"
-                  value={formData.mobile}
-                  onChange={inputHandlers.mobile}
-                  disabled={isSubmitting || authLoading}
-                  className="border-gray-200 focus:border-[#29688A] focus:ring-[#29688A]/20"
-                  placeholder="Enter your mobile number"
-                />
+                <div className="space-y-2">
+                  <div className="relative"><Input name="mobile" type="tel" inputMode="numeric" value={formData.mobile} onChange={inputHandlers.mobile} disabled={isSubmitting || authLoading || currentUser?.phone_verifed} className="h-12 border-gray-200 pr-28 focus:border-[#087f8c] focus:ring-[#087f8c]/20" placeholder="10-digit mobile number" />
+                    {currentUser?.phone_verifed && <span className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center gap-1 text-xs font-bold text-emerald-600"><BadgeCheck className="h-4 w-4"/> Verified</span>}
+                  </div>
+                  {!currentUser?.phone_verifed && <button type="button" onClick={() => setPhoneDialogOpen(true)} disabled={!/^\+?(91)?[6-9]\d{9}$/.test(formData.mobile.replace(/\s/g, ""))} className="inline-flex items-center gap-2 text-sm font-bold text-[#087f8c] disabled:cursor-not-allowed disabled:text-slate-400"><ShieldCheck className="h-4 w-4"/> Send OTP & verify number</button>}
+                </div>
               </FormField>
             </FormSection>
 
@@ -389,6 +385,7 @@ export default function ProfileForm() {
           </form>
         </CardContent>
       </Card>
+      <PhoneVerificationDialog open={phoneDialogOpen} onOpenChange={setPhoneDialogOpen} initialPhone={formData.mobile} onVerificationComplete={() => setMessage("Mobile number verified successfully.")} />
     </div>
   );
 }

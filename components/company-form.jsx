@@ -219,7 +219,7 @@ export default function CompanyForm({ onSubmissionSuccess }) {
         setCompanyLogo(null)
       }
 
-      setMessage("Company data loaded successfully.")
+      setMessage(null)
       setIsError(false)
     } catch (err) {
       // Handle auto-cancellation gracefully
@@ -228,8 +228,8 @@ export default function CompanyForm({ onSubmissionSuccess }) {
         return // Don't show error for cancelled requests
       }
 
-      if (err.status === 404) {
-        setMessage("No company details found. Please add your company information.")
+      if (err.status === 404 || err.message === "Record not found") {
+        setMessage(null)
         setIsError(false)
         // Reset form for new company
         resetForm()
@@ -526,7 +526,6 @@ export default function CompanyForm({ onSubmissionSuccess }) {
         employeeCount,
         annualTurnover,
         companyType,
-        approvalStatus: "pending",
         companyLogo,
         jvDetails: stringifyJsonField(jvDetails),
         collaborationDetails: stringifyJsonField(collaborationDetails),

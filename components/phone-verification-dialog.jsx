@@ -16,6 +16,8 @@ export default function PhoneVerificationDialog({
   open,
   onOpenChange,
   onVerificationComplete,
+  initialPhone,
+  required = false,
 }) {
   const [step, setStep] = useState("phone")
   const [phone, setPhone] = useState("")
@@ -27,16 +29,16 @@ export default function PhoneVerificationDialog({
   const { toast } = useToast()
 
   useEffect(() => {
-    if (open && currentUser?.phone) {
+    if (open && (initialPhone || currentUser?.phone || currentUser?.mobile)) {
       // Format existing phone number with country code if it doesn't have one
-      const userPhone = currentUser.phone
+      const userPhone = initialPhone || currentUser.phone || currentUser.mobile
       if (userPhone && !userPhone.startsWith('+')) {
         setPhone(`+91${userPhone}`)
       } else {
         setPhone(userPhone || "")
       }
     }
-  }, [open, currentUser?.phone])
+  }, [open, initialPhone, currentUser?.phone, currentUser?.mobile])
 
   const handlePhoneSubmit = async (e) => {
     e.preventDefault()
@@ -244,6 +246,7 @@ export default function PhoneVerificationDialog({
   }
 
   const handleDialogClose = (open) => {
+    if (!open && required && !currentUser?.phone_verifed) return
     if (!open) {
       setStep("phone")
       setPhone("")
@@ -263,7 +266,7 @@ export default function PhoneVerificationDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="w-[calc(100%-1.5rem)] max-w-md rounded-3xl border-0 p-5 shadow-2xl sm:p-7" showCloseButton={!required} onEscapeKeyDown={(event) => required && event.preventDefault()} onPointerDownOutside={(event) => required && event.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <Shield className="w-5 h-5 text-[#29688A]" />
@@ -274,7 +277,9 @@ export default function PhoneVerificationDialog({
         {step === "phone" ? (
           <form onSubmit={handlePhoneSubmit} className="space-y-4 mt-4">
             <div className="text-center mb-6">
-              <Phone className="w-12 h-12 text-[#29688A] mx-auto mb-3" />
+              {required && <span className="mb-4 inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">Required to continue</span>}
+              <span className="mx-auto mb-3 grid h-14 w-14 place-items-center rounded-2xl bg-cyan-50"><Phone className="w-7 h-7 text-[#087f8c]" /></span>
+              <h3 className="mb-2 text-xl font-bold text-slate-900">Secure your account</h3>
               <p className="text-gray-600 text-sm">
                 {currentUser?.phone && !isEditingPhone
                   ? "Verify your registered phone number"
@@ -325,7 +330,7 @@ export default function PhoneVerificationDialog({
             <div className="flex gap-3">
               <Button 
                 type="submit" 
-                className="flex-1 bg-[#29688A] hover:bg-[#29688A]/90 text-white" 
+                className="h-12 flex-1 rounded-xl bg-[#087f8c] hover:bg-[#066b75] text-white" 
                 disabled={isLoading || !phone}
               >
                 {isLoading ? (

@@ -2,8 +2,7 @@ import { Manrope } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { getCurrentUser, publicUser } from '@/lib/auth';
-import Navbar from '@/components/Nav';
-import Footer from '@/components/Footer';
+import SiteChrome from '@/components/site-chrome';
 
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' });
 
@@ -22,9 +21,7 @@ export default async function RootLayout({ children }) {
       </head>
       <body className={manrope.className}>
         <AuthProvider initialAuth={initialAuth}>
-          <Navbar/>
-          {children}
-          <Footer/>
+          <SiteChrome>{children}</SiteChrome>
         </AuthProvider>
       </body>
     </html>

@@ -82,7 +82,8 @@ export async function POST(request) {
 
       // Use the normalized phone number for PocketBase update
       await pb.collection("users").update(userId, {
-        // phone: normalizedPhone,
+        phone: normalizedPhone,
+        mobile: normalizedPhone,
         phone_verifed: true,
       })
 

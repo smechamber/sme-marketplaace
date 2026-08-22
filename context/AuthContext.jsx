@@ -103,9 +103,9 @@ export function AuthProvider({ children, initialAuth }) {
     async (userData) => {
       setIsLoading(true)
       try {
-        await pb.collection("users").create(userData)
+        await pb.register(userData)
       } catch (error) {
-        console.error("Registration failed:", error.response?.data || error.message)
+        console.error("Registration failed:", error.data || error.message)
         throw error
       } finally {
         setIsLoading(false)
