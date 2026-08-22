@@ -97,7 +97,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "C:\\Users\\Admin\\Desktop\\Abhishek\\sme-marketplaace",
+    "outputFileTracingRoot": "C:\\Users\\Abhishek Choudary\\Desktop\\AbhishekC\\sme-marketplace",
     "experimental": {
       "useSkewCookie": false,
       "nodeMiddleware": false,
@@ -292,10 +292,10 @@
       "@mysme/core"
     ],
     "turbopack": {
-      "root": "C:\\Users\\Admin\\Desktop\\Abhishek\\sme-marketplaace"
+      "root": "C:\\Users\\Abhishek Choudary\\Desktop\\AbhishekC\\sme-marketplace"
     }
   },
-  "appDir": "C:\\Users\\Admin\\Desktop\\Abhishek\\sme-marketplaace\\apps\\admin",
+  "appDir": "C:\\Users\\Abhishek Choudary\\Desktop\\AbhishekC\\sme-marketplace\\apps\\admin",
   "relativeAppDir": "apps\\admin",
   "files": [
     ".next\\routes-manifest.json",
